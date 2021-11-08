@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //第一题
+        // var num = parseInt(prompt("请输入一个数字:"));
+        // while (isNaN(num)) {
+        //     num = parseInt(prompt("你未输入正确的数字，请重新输入:"));
+        // }
+        // alert("你输入的数字平方后为：" + num * num);
+
+        //第二题
+        var arr = [1, [2, 3], 4, [5, [6, [7, 8]]], [9, 10]];
+        res = []; //用来存储返回的数据
+
+        function fun1(arr) {
+            res = arr.toString().split(',').map(function (item) {
+                return parseInt(item);
+            })
+        }
+
+        fun1(arr);
+        console.log(res); //[1,2,3,4,5,6,7,8,9,10];=
+
+        //第三题
+        var arr = [{ name: 'xiaoming', age: 18 }, { name: 'zhangsan', age: 34 },
+        { name: 'lisi', age: 29 }, { name: 'wangwu', age: 24 }];
+
+        console.log(arr);
+
+        function sortby(key, way = true) {//way为true表示默认按照升序排列
+            return function (a, b) {
+                var flag = way ? 1 : -1;
+                if (a[key] < b[key]) return -1 * flag;
+                else if (a[key] > b[key]) return 1 * flag;
+                else return 0;
+            }
+        }
+
+        console.log(arr.sort(sortby('age'))) //[{name: "xiaoming", age: 18},{name: "wangwu", age: 24},{name: "lisi", age: 29},{name: "zhangsan", age: 34}]
+        console.log(arr.sort(sortby('name', false))) //[{name: "zhangsan", age: 34},{name: "xiaoming", age: 18},{name: "wangwu", age: 24},{name: "lisi", age: 29}]
+    </script>
+</body>
+
+</html>
