@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .level1 {
+            width: 220px;
+            margin: 0 auto;
+            padding-top: 100px;
+        }
+
+        .input {
+            width: 220px;
+            height: 230px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .buttons span {
+            font-size: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="level1">
+        <textarea class="input" cols="30" rows="10"></textarea>
+        <div class="buttons">
+            <span>更换背景颜色</span>
+            <span>更改字体大小</span>
+        </div>
+    </div>
+    <script>
+        let input = document.querySelector('.input');
+        let buttons = document.querySelector('.buttons');
+        let backgroundColor = ['#fff', 'red', 'skyblue', 'pink', '#ccc'];
+        let fontSize = [10, 15, 20, 25, 30];
+        input.nowColor = 0;
+        input.nowSize = 0;
+        buttons.onselectstart = () => false;
+        buttons.children[0].addEventListener('click', function () {
+            input.nowColor = (input.nowColor + 1) % 5;
+            input.style.backgroundColor = backgroundColor[input.nowColor];
+        })
+        buttons.children[1].addEventListener('click', function () {
+            input.nowSize = (input.nowSize + 1) % 5;
+            input.style.fontSize = fontSize[input.nowSize] + 'px';
+        })
+    </script>
+</body>
+
+</html>
