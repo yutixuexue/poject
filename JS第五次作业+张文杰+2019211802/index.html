@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: 'iconfont';
+            src: url('fonts/iconfont.woff2?t=1638701212788') format('woff2'),
+                url('fonts/iconfont.woff?t=1638701212788') format('woff'),
+                url('fontsiconfont.ttf?t=1638701212788') format('truetype');
+        }
+
+        .iconfont {
+            font-family: "iconfont" !important;
+            font-size: 1rem;
+            font-style: normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .clearfix:before,
+        .clearfix:after {
+            content: "";
+            display: table;
+        }
+
+        .clearfix:after {
+            clear: both;
+        }
+
+        .clearfix {
+            *zoom: 1;
+        }
+
+        @media screen and (min-width: 375px) {
+            html {
+                /* iPhone6的375px尺寸作为16px基准，414px正好18px大小, 600 20px */
+                font-size: calc(100% + 2 * (100vw - 375px) / 39);
+                font-size: calc(16px + 2 * (100vw - 375px) / 39);
+            }
+
+            .main-width {
+                width: 100%;
+            }
+        }
+
+        @media screen and (min-width: 414px) {
+            html {
+                /* 414px-1000px每100像素宽字体增加1px(18px-22px) */
+                font-size: calc(112.5% + 4 * (100vw - 414px) / 586);
+                font-size: calc(18px + 4 * (100vw - 414px) / 586);
+            }
+        }
+
+        @media screen and (min-width: 600px) {
+            html {
+                /* 600px-1000px每100像素宽字体增加1px(20px-24px) */
+                font-size: calc(125% + 4 * (100vw - 600px) / 400);
+                font-size: calc(20px + 4 * (100vw - 600px) / 400);
+            }
+        }
+
+        @media screen and (min-width: 1000px) {
+            html {
+                /* 1000px往后是每100像素0.5px增加 */
+                font-size: calc(137.5% + 6 * (100vw - 1000px) / 1000);
+                font-size: calc(22px + 6 * (100vw - 1000px) / 1000);
+            }
+
+            .main-width {
+                width: 20rem;
+            }
+        }
+
+        div {
+            box-sizing: border-box;
+        }
+
+        body,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .main {
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .title {
+            position: relative;
+            color: #fff;
+            width: 100%;
+            height: 3rem;
+            font-size: 1rem;
+            line-height: 3rem;
+            background-color: rgb(40, 93, 241);
+            z-index: 2;
+        }
+
+        .home {
+            float: left;
+            margin-left: .5rem;
+        }
+
+        .list {
+            float: right;
+            margin-right: .5rem;
+            cursor: pointer;
+        }
+
+        .menu {
+            position: absolute;
+            top: -100%;
+            background-color: #fff;
+            width: 100%;
+            z-index: 1;
+            transition: all .4s;
+        }
+
+        .menu li {
+            font-size: .8rem;
+            height: 2.4rem;
+            line-height: 2.4rem;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .menu li:hover {
+            cursor: pointer;
+            color: skyblue;
+        }
+
+        .forword,
+        .backword {
+            display: inline-block;
+            width: 1rem;
+            color: #fff;
+            padding: .1rem;
+            margin: .5rem 1rem;
+            border-radius: .6rem;
+            background-color: #ccc;
+        }
+
+        .show li {
+            font-size: .8rem;
+            color: rgb(15, 155, 211);
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .show li:hover {
+            cursor: pointer;
+            color: skyblue;
+        }
+
+        .time {
+            float: left;
+            width: 20%;
+            margin-left: 10%;
+        }
+
+        .text {
+            float: left;
+            width: 70%;
+            word-wrap: break-word;
+            text-align: left;
+            padding-left: .2rem;
+            padding-right: 2rem;
+            border-left: 1px solid #ccc;
+        }
+
+        .template {
+            display: none;
+        }
+
+        .mask {
+            position: fixed;
+            display: none;
+            top: 0;
+            height: 100%;
+            background-color: rgba(160, 160, 160, 0.3);
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main main-width">
+
+        <!-- 标题模块 -->
+        <div class="title iconfont">
+            <span class="home">&#xe8b9;</span>
+            历史上的今天
+            <span class="list">&#xe600;</span>
+        </div>
+
+        <!-- 下拉菜单 -->
+        <ul class="menu">
+            <li>电话区号查询</li>
+            <li>手机号码查询</li>
+            <li>万年历查询</li>
+            <li>北京时间查询</li>
+            <li>IP地址查询</li>
+        </ul>
+
+        <!-- 日期模块 -->
+        <div class="date iconfont">
+            <span class="forword"> &#xe625;</span>
+            12月12日
+            <span class="backword"> &#xe66a;</span>
+        </div>
+
+        <!-- 展示模块 -->
+        <ul class="show">
+            <!-- 模板 -->
+            <li class="template clearfix">
+                <div class="time"></div>
+                <div class="text"></div>
+            </li>
+        </ul>
+
+        <!-- 遮罩层 -->
+        <div class="mask main-width"></div>
+    </div>
+
+    <script>
+
+        function api(url) {
+            return new Promise(function (resolve, reject) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', url);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status >= 200 && xhr.readyState <= 300) {
+                            resolve(JSON.parse(xhr.response).result);
+                        }
+                    }
+                }
+            })
+        }
+
+        let show = document.querySelector('.show');
+        let list = document.querySelector('.list');
+        let menu = document.querySelector('.menu');
+        let mask = document.querySelector('.mask');
+
+        api('https://api.oick.cn/lishi/api.php').then(res => {
+            // console.log(res);
+            for (let i in res) {
+                // console.log(res[i]);
+                let li = show.children[0].cloneNode(true);
+                li.classList.remove('template');
+                li.children[0].innerHTML = res[i].date.substring(0, 5);
+                li.children[1].innerHTML = res[i].title;
+                show.append(li);
+                li.addEventListener('touchstart', function () {
+                    this.style.color = 'skyblue';
+                })
+                li.addEventListener('touchend', function () {
+                    this.style.color = 'rgb(15, 155, 211)';
+                })
+            }
+        })
+
+        for (let i = 0; i < 5; i++) {
+            menu.children[i].addEventListener('touchstart', function () {
+                this.style.color = 'skyblue';
+            })
+            menu.children[i].addEventListener('touchend', function () {
+                this.style.color = 'black';
+            })
+        }
+
+        list.show = false;
+        list.addEventListener('click', function () {
+            if (list.show) {
+                mask.style.display = 'none';
+                menu.style.top = '-100%';
+                list.innerHTML = '&#xe6e4;';
+                list.show = false;
+            }
+            else {
+                mask.style.display = 'block';
+                menu.style.top = '3rem';
+                list.innerHTML = '&#xe675;';
+                list.show = true;
+            }
+        })
+    </script>
+</body>
+
+</html>
