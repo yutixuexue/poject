@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cpver, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>Document</title>
+    <style>
+        @media only screen and (max-width: 1600px) and (min-width: 1280px) {
+            html {
+                font-size: 14px;
+            }
+        }
+
+        @media only screen and (max-width: 1280px) and (min-width: 960px) {
+            html {
+                font-size: 12px;
+            }
+        }
+
+        @media only screen and (max-width: 960px) {
+            html {
+                font-size: 10px;
+            }
+        }
+
+        @font-face {
+            font-family: 'iconfont';
+            src: url('fonts/iconfont.woff2?t=1642403170143') format('woff2'),
+                url('fonts/iconfont.woff?t=1642403170143') format('woff'),
+                url('fonts/iconfont.ttf?t=1642403170143') format('truetype');
+        }
+
+        .iconfont {
+            font-family: "iconfont" !important;
+            font-style: normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .clearfix:after {
+            content: "020";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .clearfix {
+            /* 触发 hasLayout */
+            zoom: 1;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            padding-bottom: 238px;
+        }
+
+        ul,
+        li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main {
+            width: 100%;
+            max-width: 640px;
+            background-color: #f1f0f6;
+            margin: 0 auto;
+            padding-top: .7rem;
+        }
+
+        .search {
+            margin-left: .5rem;
+        }
+
+        .search .iconfont {
+            float: left;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.1rem;
+            height: 3.2rem;
+            font-size: 2rem;
+            color: rgb(145, 142, 142);
+        }
+
+        .search div {
+            height: 3.2rem;
+            margin-left: 30px;
+            margin-right: 2rem;
+        }
+
+        input {
+            width: calc(100% - 2rem);
+            height: 3.2rem;
+            padding: 0 1rem;
+            outline: none;
+            border: 0;
+            border-radius: 6px;
+        }
+
+        .title {
+            float: left;
+            height: 2.5rem;
+            color: rgba(85, 85, 85, .5);
+            margin-left: 1.66%;
+            margin-top: 1.5rem;
+        }
+
+        .city {
+            float: left;
+            width: 30%;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            text-align: center;
+            margin: 1.66%;
+            background-color: #fff;
+            border-radius: 6px;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .del {
+            cursor: pointer;
+        }
+
+        ul li {
+            height: 3rem;
+            line-height: 3rem;
+            border-bottom: 1px solid #dcdbe1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="search">
+            <span class="iconfont back">&#xe634;</span>
+            <div><input type="text" placeholder="请输入城市名"></div>
+            <ul></ul>
+        </div>
+        <div>
+            <div class="clearfix">
+                <div class="title">当前城市</div>
+            </div>
+            <div class="now  clearfix"></div>
+        </div>
+        <div>
+            <div class="clearfix">
+                <div class="title">添加记录</div>
+                <div class="title right del">删除</div>
+            </div>
+            <div class="his clearfix"></div>
+        </div>
+        <div>
+            <div class="clearfix">
+                <div class="title">热搜城市</div>
+            </div>
+            <div class="all clearfix"></div>
+        </div>
+    </div>
+
+    <script>
+        let name = unescape(window.location.search.substring(6));
+        let now = document.querySelector('.now');
+        let his = document.querySelector('.his');
+        let all = document.querySelector('.all');
+        let model = document.createElement('a');
+        let del = document.querySelector('.del');
+        let input = document.querySelector('input');
+        let ul = document.querySelector('ul');
+        let back = document.querySelector('.back');
+        let hc = localStorage.getItem('name') ? JSON.parse(localStorage.getItem('name')) : [];
+        let allCity = ['北京市', '上海市', '广州市', '深圳市', '杭州市', '沈阳市', '大连市', '重庆市']
+        let find_city = 'https://geoapi.qweather.com/v2/city/lookup?key=225d5152aef140278c1b2e3b13e4830b&location=';
+
+        if (name) {
+            model.className = 'city';
+            model.href = 'javascript:void(0)';
+            model.innerHTML = name;
+            now.append(model);
+            if (!hc.includes(name)) {
+                hc[hc.length] = name;
+                localStorage.setItem('name', JSON.stringify(hc));
+            }
+        }
+
+        for (let i in hc) {
+            let city = model.cloneNode();
+            city.className = 'city';
+            city.href = 'level4.html?name=' + hc[i];
+            city.innerHTML = hc[i];
+            his.insertBefore(city, his.children[0]);
+        }
+
+
+        for (let i in allCity) {
+            let city = model.cloneNode();
+            city.className = 'city';
+            city.href = 'level4.html?name=' + allCity[i];
+            city.innerHTML = allCity[i];
+            all.append(city);
+        }
+
+        del.addEventListener('click', function () {
+            localStorage.setItem('name', '');
+            his.innerHTML = '';
+        })
+
+        function api(url) {
+            return new Promise(function (resolve, reject) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', url);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status >= 200 && xhr.readyState <= 300) {
+                            resolve(JSON.parse(xhr.response));
+                        }
+                    }
+                }
+            })
+        }
+
+        input.onkeyup = function () {
+            ul.innerHTML = '';
+            api(find_city + this.value).then(res => {
+                for (let i in res.location) {
+                    let li = document.createElement('li');
+                    li.innerHTML = res.location[i].name;
+                    ul.append(li);
+                }
+            })
+        }
+
+        ul.onclick = function (event) {
+            let e = event || window.event;
+            window.location.href = 'level4.html?name=' + e.target.innerHTML;
+        }
+
+        back.onclick = function () {
+            window.location.href = 'level4.html?name=' + name;
+        }
+    </script>
+</body>
+
+</html>
