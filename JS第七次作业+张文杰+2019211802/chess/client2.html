@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>client2</title>
+    <style>
+        .box {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            border: 1px solid black;
+            margin: 0 auto;
+        }
+
+        .small {
+            float: left;
+            width: 33.3%;
+            height: 33.3%;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        .button {
+            width: 200px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            margin: 20px auto;
+            border-radius: 8px;
+            background-color: #ddd;
+            cursor: pointer;
+        }
+
+        .now {
+            position: absolute;
+            right: -30px;
+            top: 20%;
+            width: 20px;
+            height: 20px;
+        }
+
+        .mask {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 640px;
+            height: 800px;
+            font-size: 20px;
+            padding-top: 200px;
+            text-align: center;
+            background-color: rgba(119, 119, 119, 0.5);
+        }
+
+        .end {
+            width: 320px;
+            border-radius: 10px;
+            margin: 0 auto;
+            padding: 20px 0;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="small" id="0"></div>
+        <div class="small" id="1"></div>
+        <div class="small" id="2"></div>
+        <div class="small" id="3"></div>
+        <div class="small" id="4"></div>
+        <div class="small" id="5"></div>
+        <div class="small" id="6"></div>
+        <div class="small" id="7"></div>
+        <div class="small" id="8"></div>
+        <div class="now"></div>
+    </div>
+    <div class="button">准备游戏</div>
+    <div class="mask">
+        <div class="end">
+            游戏结束
+            <div class="button">确定</div>
+        </div>
+    </div>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.js"></script>
+    <script>
+        var socket = io.connect();
+        var box = document.querySelector('.box');
+        var button = document.querySelectorAll('.button');
+        var mask = document.querySelector('.mask');
+        var color = ['red', 'blue', ''];
+
+        if (socket !== undefined) {
+            console.log('Connected to socket...');
+        }
+
+        socket.on('receiveMsg', function (data) {
+            document.querySelector('.now').style.backgroundColor = color[data.user];
+
+            if (data.user < 2)
+                button[0].style.backgroundColor = 'rgba(0, 0, 255, 0.493)';
+
+            for (let i in data.chess) {
+                document.getElementById(i).style.backgroundColor = color[data.chess[i]];
+            }
+
+            if (data.end) {
+                mask.style.display = 'block';
+            }
+            else if (data.user == 1) {
+                box.onclick = choose;
+            }
+        });
+
+        button[0].onclick = begin;
+        button[1].onclick = function () {
+            mask.style.display = 'none';
+            button[0].style.backgroundColor = '#ddd';
+            button[0].onclick = begin;
+        }
+
+        function choose(event) {
+            let e = event || window.event;
+            if (!e.target.style.backgroundColor && e.target.style.backgroundColor != '#fff') {
+                let data = { user: 1, id: e.target.id };
+                e.target.style.backgroundColor = color[data.user];
+                document.querySelector('.now').style.backgroundColor = color[0];
+                box.onclick = function () { };
+                socket.emit('sendMsg', data);
+            }
+        }
+
+        function begin() {
+            socket.emit('sendMsg', { ready: true, user: 1, id: -1 });
+            this.style.backgroundColor = 'rgba(0, 0, 255, 0.493)';
+            for (let i = 0; i < 9; i++) {
+                document.getElementById(i).style.backgroundColor = '';
+            }
+            box.onclick = choose;
+            button[0].onclick = function () { }
+        }
+
+    </script>
+</body>
+
+</html>
