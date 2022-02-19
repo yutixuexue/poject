@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main {
+            position: relative;
+            width: 300px;
+            margin: 100px auto;
+            padding: 100px 20px 200px;
+            background-color: #ddd;
+        }
+
+        .login {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        input {
+            outline: none;
+            border: none;
+            border-radius: 7px;
+            padding: 2px;
+        }
+
+        .username,
+        .password {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="../cookie.js"></script>
+    <script>
+        function api(url) {
+            return new Promise(function (resolve, reject) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', url);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status >= 200 && xhr.readyState <= 300) {
+                            resolve(xhr.response);
+                        }
+                    }
+                }
+            })
+        }
+
+        api('http://localhost:8000/?username=' + getCookie('username')).then(res => {
+            if (res == 'true') window.location.href = 'index.html';
+        })
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="username">用户名：<input type="text" placeholder="请输入用户名"></div>
+        <div class="password">密码：&nbsp;&nbsp;&nbsp;<input type="password" placeholder="请输入密码"></div>
+        <div class="login">登录</div>
+    </div>
+    <script>
+        let login = document.querySelector('.login');
+        let username = document.querySelector('.username').querySelector('input');
+        let password = document.querySelector('.password').querySelector('input');
+        login.addEventListener('click', function () {
+            api('http://localhost:8000/login?username=' + username.value + '&password=' + password.value).then(res => {
+                if (res == 'true') {
+                    setCookie('username', username.value);
+                    window.location.href = 'index.html';
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

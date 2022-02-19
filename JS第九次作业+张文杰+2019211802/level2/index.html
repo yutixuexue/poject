@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../cookie.js"></script>
+    <style>
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #ddd;
+        }
+
+        .button {
+            margin-top: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="welcome"><span class="username"></span> 欢迎</div>
+        <div class="button">退出登录</div>
+    </div>
+
+    <script>
+        function api(url) {
+            return new Promise(function (resolve, reject) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', url);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status >= 200 && xhr.readyState <= 300) {
+                            resolve(xhr.response);
+                        }
+                    }
+                }
+            })
+        }
+
+        let button = document.querySelector('.button');
+        let username = document.querySelector('.username');
+        username.innerHTML = getCookie('username');
+        button.onclick = function () {
+            api('http://localhost:8000/back/?username=' + getCookie('username')).then(res => {
+                window.location.href = 'login.html';
+            })
+        }
+    </script>
+</body>
+
+</html>
