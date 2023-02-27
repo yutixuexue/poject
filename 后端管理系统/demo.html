@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 500px;
+            padding: 0 50px;
+        }
+
+        .box::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .son1 {
+            position: relative;
+            left: -50px;
+            float: left;
+            width: 50px;
+            margin-left: -100%;
+            background-color: blue;
+        }
+
+        .son2 {
+            float: left;
+            width: 50px;
+            margin-right: -50px;
+            background-color: red;
+        }
+
+        .mid {
+            float: left;
+            width: 100%;
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+</body>
+<div class="box">
+    <div class="mid">mid</div>
+    <div class="son1">son1</div>
+    <div class="son2">son2</div>
+</div>
+
+<script>
+    var obj = { 'key1': 'value1' };
+    let { key: b } = obj;
+    console.log(b);
+</script>
+</body>
+
+</html>
